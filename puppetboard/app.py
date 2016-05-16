@@ -624,10 +624,11 @@ def report(env, node_name, report_id):
     except StopIteration:
         abort(404)
 
+    query_s = '["=", "report", "{0}"]'.format(report_id)
     return render_template(
         'report.html',
         report=report,
-        events=yield_or_stop(report.events()),
+        events = puppetdb.events(query=query_s),
         logs=report.logs,
         metrics=report.metrics,
         envs=envs,
